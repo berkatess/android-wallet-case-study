@@ -24,3 +24,8 @@ dependencyResolutionManagement {
 
 rootProject.name = "WalletCase"
 include(":app")
+include(":core:designsystem")
+include(":core:util")
+include(":domain")
+include(":data")
+include(":feature:wallet")
