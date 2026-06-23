@@ -22,6 +22,8 @@ android {
     }
 
     compileOptions {
+        // Required because :core:util enables desugaring; the consuming module must match.
+        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
@@ -31,6 +33,8 @@ android {
 }
 
 dependencies {
+    coreLibraryDesugaring(libs.desugar.jdk.libs)
+
     // :feature:wallet sees only domain interfaces + core libraries — never :data.
     implementation(project(":domain"))
     implementation(project(":core:designsystem"))
