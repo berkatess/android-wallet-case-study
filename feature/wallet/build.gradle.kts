@@ -45,6 +45,9 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
 
+    // Coil — AsyncImage for child avatars (avatarUrl is nullable; initials shown when null)
+    implementation(libs.coil.compose)
+
     // Navigation (type-safe routes) + Hilt
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.hilt.navigation.compose)
