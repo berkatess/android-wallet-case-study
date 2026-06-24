@@ -3,7 +3,9 @@ package com.ba.walletcase.feature.wallet
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -41,8 +43,17 @@ fun WalletDashboardScreen(
 ) {
     Scaffold(
         modifier = modifier,
+        // The app-level Scaffold already applies the system-bar insets (status/navigation)
+        // and pads this screen accordingly, so this inner Scaffold must not apply them again
+        // — doing so would push the top bar down by a second status-bar height (the portrait
+        // top-space bug).
+        contentWindowInsets = WindowInsets(0, 0, 0, 0),
         topBar = {
             CenterAlignedTopAppBar(
+                // Compact toolbar height: the default M3 top app bar is 64dp; 48dp matches
+                // a standard toolbar and trims the extra vertical space.
+                modifier = Modifier.height(48.dp),
+                windowInsets = WindowInsets(0, 0, 0, 0),
                 title = {
                     Text(
                         text = "My Wallet",
