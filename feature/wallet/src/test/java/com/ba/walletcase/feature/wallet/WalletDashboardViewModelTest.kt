@@ -145,7 +145,8 @@ class WalletDashboardViewModelTest {
             savedStateHandle = SavedStateHandle(),
         )
         viewModel.uiState.test {
-            assertTrue("Expected Loading but got: ${awaitItem()}", awaitItem() is WalletDashboardUiState.Loading)
+            val state = awaitItem()
+            assertTrue("Expected Loading but got: $state", state is WalletDashboardUiState.Loading)
             cancelAndIgnoreRemainingEvents()
         }
     }
@@ -193,11 +194,11 @@ class WalletDashboardViewModelTest {
             assertTrue(awaitItem() is WalletDashboardUiState.Error)
 
             // Fix the repo and retry — with UnconfinedTestDispatcher the new load
-            // coroutine runs eagerly, so Loading and then Success are both buffered
+            // coroutine runs eagerly and StateFlow conflates the transient Loading,
+            // so only the final Success is observable.
             fakeRepo.shouldThrow = false
             viewModel.onAction(WalletDashboardAction.Retry)
 
-            assertTrue(awaitItem() is WalletDashboardUiState.Loading)
             assertTrue(awaitItem() is WalletDashboardUiState.Success)
             cancelAndIgnoreRemainingEvents()
         }
@@ -211,11 +212,12 @@ class WalletDashboardViewModelTest {
             assertTrue(awaitItem() is WalletDashboardUiState.Success)
 
             // Switch to ERROR — configure repo before dispatching so the eagerly-run
-            // load coroutine sees the new behaviour immediately
+            // load coroutine sees the new behaviour immediately. StateFlow conflates
+            // the transient Loading under UnconfinedTestDispatcher, so only the final
+            // Error is observable.
             fakeRepo.shouldThrow = true
             viewModel.onAction(WalletDashboardAction.SelectScenario(DataScenario.ERROR))
 
-            assertTrue(awaitItem() is WalletDashboardUiState.Loading)
             assertTrue(awaitItem() is WalletDashboardUiState.Error)
             cancelAndIgnoreRemainingEvents()
         }
