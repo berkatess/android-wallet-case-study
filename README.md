@@ -4,6 +4,10 @@
 
 **WalletCase** is a Digital Wallet Dashboard for Android, built with **Jetpack Compose**, the **MVVM** pattern, and a **multi-module** architecture. It is a case study implementation that demonstrates clean architecture principles in practice — most notably a data layer that is decoupled from the UI at **compile time**, so the mock data source can be replaced with a real network service without touching the View or the ViewModel.
 
+> **Deliverables:** This repo covers both parts of the case study.
+> **Q1 (Wallet Dashboard)** is documented in this README.
+> **Q2 (Security-Aware Code Review)** lives in [`docs/Q2_AuthManager_Review.md`](docs/Q2_AuthManager_Review.md) (manual + AI-assisted review and comparison) and [`docs/AuthManager.kt`](docs/AuthManager.kt) (the corrected, production-ready rewrite).
+
 ## 2. Build & Run
 
 > Requires **Android Studio Narwhal (2025.1.1)** or newer (AGP 9.1.1).
