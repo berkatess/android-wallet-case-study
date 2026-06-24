@@ -19,6 +19,8 @@ android {
     }
 
     compileOptions {
+        // java.time (Instant.parse in WalletMappers) on minSdk 24 via core library desugaring.
+        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
@@ -27,6 +29,8 @@ android {
 dependencies {
     // :data implements :domain's repository interfaces (the decoupling seam).
     api(project(":domain"))
+
+    coreLibraryDesugaring(libs.desugar.jdk.libs)
 
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.kotlinx.coroutines.android)

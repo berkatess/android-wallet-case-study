@@ -58,7 +58,9 @@ class WalletDashboardScreenTest {
 
         // Balance (formatted with the ₺ symbol), first child, and the transactions header.
         composeTestRule.onAllNodesWithText("₺", substring = true).onFirst().assertIsDisplayed()
-        composeTestRule.onNodeWithText("Elif", substring = true).assertIsDisplayed()
+        // "Elif" appears both as the child name and in a transaction description, so match all
+        // and assert the first is shown.
+        composeTestRule.onAllNodesWithText("Elif", substring = true).onFirst().assertIsDisplayed()
         composeTestRule.onNodeWithText("Recent Transactions").assertIsDisplayed()
     }
 
