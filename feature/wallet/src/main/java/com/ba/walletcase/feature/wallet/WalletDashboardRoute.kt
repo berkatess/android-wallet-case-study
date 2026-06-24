@@ -14,11 +14,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 fun WalletDashboardRoute(modifier: Modifier = Modifier) {
     val viewModel: WalletDashboardViewModel = hiltViewModel()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val currentScenario by viewModel.selectedScenario.collectAsStateWithLifecycle()
 
     WalletDashboardScreen(
         uiState = uiState,
-        currentScenario = currentScenario,
         onAction = viewModel::onAction,
         modifier = modifier,
     )

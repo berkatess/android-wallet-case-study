@@ -10,7 +10,6 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.ba.walletcase.core.designsystem.theme.WalletCaseTheme
-import com.ba.walletcase.domain.demo.DataScenario
 import com.ba.walletcase.feature.wallet.preview.previewDashboard
 import org.junit.Assert.assertEquals
 import org.junit.Rule
@@ -35,15 +34,14 @@ class WalletDashboardScreenTest {
             WalletCaseTheme {
                 WalletDashboardScreen(
                     uiState = WalletDashboardUiState.Loading,
-                    currentScenario = DataScenario.LOADED,
                     onAction = {},
                 )
             }
         }
 
-        // The skeleton has no dedicated semantics; assert the top bar renders and that
-        // no balance (the ₺ symbol) has been emitted yet.
-        composeTestRule.onNodeWithText("My Wallet").assertIsDisplayed()
+        // The skeleton has no dedicated semantics, and the top bar now lives in the app shell
+        // (not this composable), so assert the loading state shows no balance yet — the ₺
+        // symbol from the balance card is absent until data loads.
         composeTestRule.onAllNodesWithText("₺", substring = true).assertCountEquals(0)
     }
 
@@ -53,7 +51,6 @@ class WalletDashboardScreenTest {
             WalletCaseTheme {
                 WalletDashboardScreen(
                     uiState = WalletDashboardUiState.Success(previewDashboard),
-                    currentScenario = DataScenario.LOADED,
                     onAction = {},
                 )
             }
@@ -71,7 +68,6 @@ class WalletDashboardScreenTest {
             WalletCaseTheme {
                 WalletDashboardScreen(
                     uiState = WalletDashboardUiState.Empty,
-                    currentScenario = DataScenario.LOADED,
                     onAction = {},
                 )
             }
@@ -88,7 +84,6 @@ class WalletDashboardScreenTest {
             WalletCaseTheme {
                 WalletDashboardScreen(
                     uiState = WalletDashboardUiState.Error("Test error"),
-                    currentScenario = DataScenario.LOADED,
                     onAction = { capturedAction = it },
                 )
             }
@@ -110,7 +105,6 @@ class WalletDashboardScreenTest {
             WalletCaseTheme {
                 WalletDashboardScreen(
                     uiState = WalletDashboardUiState.Error("Test error"),
-                    currentScenario = DataScenario.LOADED,
                     onAction = { capturedAction = it },
                 )
             }

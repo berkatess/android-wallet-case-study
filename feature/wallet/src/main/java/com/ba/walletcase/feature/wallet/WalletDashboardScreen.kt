@@ -3,131 +3,90 @@ package com.ba.walletcase.feature.wallet
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.tooling.preview.Preview
 import com.ba.walletcase.core.designsystem.theme.WalletCaseTheme
-import com.ba.walletcase.domain.demo.DataScenario
 import com.ba.walletcase.feature.wallet.preview.previewDashboard
 import java.math.BigDecimal
 import com.ba.walletcase.feature.wallet.WalletDashboardAction.Retry
-import com.ba.walletcase.feature.wallet.WalletDashboardAction.SelectScenario
 import com.ba.walletcase.feature.wallet.WalletDashboardAction.TopUp
 import com.ba.walletcase.feature.wallet.component.BalanceCard
 import com.ba.walletcase.feature.wallet.component.ChildrenRow
 import com.ba.walletcase.feature.wallet.component.DashboardEmpty
 import com.ba.walletcase.feature.wallet.component.DashboardError
 import com.ba.walletcase.feature.wallet.component.DashboardLoadingSkeleton
-import com.ba.walletcase.feature.wallet.component.ScenarioMenu
 import com.ba.walletcase.feature.wallet.component.TransactionsSection
 
-@OptIn(ExperimentalMaterial3Api::class)
+/**
+ * Stateless content for the wallet dashboard. The app shell ([WalletApp]) owns the single
+ * Scaffold, top bar, bottom bar, and window insets; this composable renders only the body for
+ * the given [uiState] and emits [WalletDashboardAction]s. The incoming [modifier] already
+ * carries the Scaffold's content padding.
+ */
 @Composable
 fun WalletDashboardScreen(
     uiState: WalletDashboardUiState,
-    currentScenario: DataScenario,
     onAction: (WalletDashboardAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Scaffold(
-        modifier = modifier,
-        // The app-level Scaffold already applies the system-bar insets (status/navigation)
-        // and pads this screen accordingly, so this inner Scaffold must not apply them again
-        // — doing so would push the top bar down by a second status-bar height (the portrait
-        // top-space bug).
-        contentWindowInsets = WindowInsets(0, 0, 0, 0),
-        topBar = {
-            CenterAlignedTopAppBar(
-                // Compact toolbar height: the default M3 top app bar is 64dp; 48dp matches
-                // a standard toolbar and trims the extra vertical space.
-                modifier = Modifier.height(48.dp),
-                windowInsets = WindowInsets(0, 0, 0, 0),
-                title = {
-                    Text(
-                        text = "My Wallet",
-                        style = MaterialTheme.typography.titleLarge,
-                    )
-                },
-                actions = {
-                    ScenarioMenu(
-                        currentScenario = currentScenario,
-                        onScenarioSelected = { onAction(SelectScenario(it)) },
-                    )
-                },
+    when (uiState) {
+        is WalletDashboardUiState.Loading -> {
+            DashboardLoadingSkeleton(
+                modifier = modifier
+                    .fillMaxSize()
+                    .padding(top = 8.dp),
             )
-        },
-    ) { innerPadding ->
-        when (uiState) {
-            is WalletDashboardUiState.Loading -> {
-                DashboardLoadingSkeleton(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(innerPadding)
-                        .padding(top = 8.dp),
-                )
-            }
+        }
 
-            is WalletDashboardUiState.Success -> {
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(innerPadding),
-                    contentPadding = PaddingValues(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(16.dp),
-                ) {
-                    item {
-                        BalanceCard(
-                            balance = uiState.dashboard.wallet.balance,
-                            onTopUp = { onAction(TopUp) },
-                        )
-                    }
-                    item {
-                        ChildrenRow(children = uiState.dashboard.children)
-                    }
-                    item {
-                        TransactionsSection(transactions = uiState.dashboard.recentTransactions)
-                    }
-                }
-            }
+        is WalletDashboardUiState.Success -> {
+            LazyColumn(
+                modifier = modifier.fillMaxSize(),
+                contentPadding = PaddingValues(16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
 
-            is WalletDashboardUiState.Empty -> {
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(innerPadding),
-                ) {
-                    DashboardEmpty(
-                        balance = BigDecimal.ZERO,
+            ) {
+                item {
+                    BalanceCard(
+                        balance = uiState.dashboard.wallet.balance,
                         onTopUp = { onAction(TopUp) },
                     )
                 }
-            }
-
-            is WalletDashboardUiState.Error -> {
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(innerPadding),
-                ) {
-                    DashboardError(
-                        message = uiState.message,
-                        onRetry = { onAction(Retry) },
-                    )
+                item {
+                    ChildrenRow(children = uiState.dashboard.children)
                 }
+                item {
+                    TransactionsSection(transactions = uiState.dashboard.recentTransactions)
+                }
+            }
+        }
+
+        is WalletDashboardUiState.Empty -> {
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = modifier.fillMaxSize(),
+            ) {
+                DashboardEmpty(
+                    balance = BigDecimal.ZERO,
+                    onTopUp = { onAction(TopUp) },
+                )
+            }
+        }
+
+        is WalletDashboardUiState.Error -> {
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = modifier.fillMaxSize(),
+            ) {
+                DashboardError(
+                    message = uiState.message,
+                    onRetry = { onAction(Retry) },
+                )
             }
         }
     }
@@ -137,11 +96,7 @@ fun WalletDashboardScreen(
 @Composable
 private fun WalletDashboardScreenLoadingPreview() {
     WalletCaseTheme {
-        WalletDashboardScreen(
-            uiState = WalletDashboardUiState.Loading,
-            currentScenario = DataScenario.LOADED,
-            onAction = {},
-        )
+        WalletDashboardScreen(uiState = WalletDashboardUiState.Loading, onAction = {})
     }
 }
 
@@ -151,7 +106,6 @@ private fun WalletDashboardScreenSuccessPreview() {
     WalletCaseTheme {
         WalletDashboardScreen(
             uiState = WalletDashboardUiState.Success(previewDashboard),
-            currentScenario = DataScenario.LOADED,
             onAction = {},
         )
     }
@@ -161,11 +115,7 @@ private fun WalletDashboardScreenSuccessPreview() {
 @Composable
 private fun WalletDashboardScreenEmptyPreview() {
     WalletCaseTheme {
-        WalletDashboardScreen(
-            uiState = WalletDashboardUiState.Empty,
-            currentScenario = DataScenario.EMPTY,
-            onAction = {},
-        )
+        WalletDashboardScreen(uiState = WalletDashboardUiState.Empty, onAction = {})
     }
 }
 
@@ -175,7 +125,6 @@ private fun WalletDashboardScreenErrorPreview() {
     WalletCaseTheme {
         WalletDashboardScreen(
             uiState = WalletDashboardUiState.Error("Simulated network error"),
-            currentScenario = DataScenario.ERROR,
             onAction = {},
         )
     }
