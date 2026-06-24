@@ -1,0 +1,152 @@
+{
+  "wallet": {
+    "id": "wal_29a1f3c8",
+    "currency": "TRY",
+    "balance": 1250.75,
+    "created_at": "2025-09-15T10:30:00Z"
+  },
+  "children": [
+    {
+      "id": "child_001",
+      "first_name": "Elif",
+      "last_name": "Yılmaz",
+      "avatar_url": null,
+      "age": 12,
+      "grade": "7th Grade",
+      "wallet_balance": 340.00,
+      "school_name": "Bahçeşehir Koleji"
+    },
+    {
+      "id": "child_002",
+      "first_name": "Can",
+      "last_name": "Yılmaz",
+      "avatar_url": null,
+      "age": 9,
+      "grade": "4th Grade",
+      "wallet_balance": 125.50,
+      "school_name": "Bahçeşehir Koleji"
+    },
+    {
+      "id": "child_003",
+      "first_name": "Zeynep",
+      "last_name": "Yılmaz",
+      "avatar_url": null,
+      "age": 15,
+      "grade": "10th Grade",
+      "wallet_balance": 580.00,
+      "school_name": "Doğa Koleji"
+    }
+  ],
+  "recent_transactions": [
+    {
+      "id": "txn_a001",
+      "type": "expense",
+      "category": "cafeteria",
+      "description": "School Cafeteria — Elif",
+      "amount": -45.00,
+      "currency": "TRY",
+      "date": "2026-03-28T12:35:00Z",
+      "child_id": "child_001",
+      "status": "completed"
+    },
+    {
+      "id": "txn_a002",
+      "type": "income",
+      "category": "topup",
+      "description": "Wallet Top-Up",
+      "amount": 500.00,
+      "currency": "TRY",
+      "date": "2026-03-27T09:15:00Z",
+      "child_id": null,
+      "status": "completed"
+    },
+    {
+      "id": "txn_a003",
+      "type": "expense",
+      "category": "trip",
+      "description": "Cappadocia School Trip — Can",
+      "amount": -1200.00,
+      "currency": "TRY",
+      "date": "2026-03-25T16:00:00Z",
+      "child_id": "child_002",
+      "status": "completed"
+    },
+    {
+      "id": "txn_a004",
+      "type": "expense",
+      "category": "cafeteria",
+      "description": "School Cafeteria — Zeynep",
+      "amount": -32.50,
+      "currency": "TRY",
+      "date": "2026-03-25T12:20:00Z",
+      "child_id": "child_003",
+      "status": "completed"
+    },
+    {
+      "id": "txn_a005",
+      "type": "expense",
+      "category": "campus_store",
+      "description": "Campus Bookstore — Elif",
+      "amount": -89.90,
+      "currency": "TRY",
+      "date": "2026-03-24T14:10:00Z",
+      "child_id": "child_001",
+      "status": "completed"
+    },
+    {
+      "id": "txn_a006",
+      "type": "income",
+      "category": "topup",
+      "description": "Wallet Top-Up",
+      "amount": 1000.00,
+      "currency": "TRY",
+      "date": "2026-03-22T08:45:00Z",
+      "child_id": null,
+      "status": "completed"
+    },
+    {
+      "id": "txn_a007",
+      "type": "expense",
+      "category": "event",
+      "description": "Science Fair Registration — Can",
+      "amount": -150.00,
+      "currency": "TRY",
+      "date": "2026-03-20T10:30:00Z",
+      "child_id": "child_002",
+      "status": "completed"
+    },
+    {
+      "id": "txn_a008",
+      "type": "expense",
+      "category": "cafeteria",
+      "description": "School Cafeteria — Elif",
+      "amount": -38.00,
+      "currency": "TRY",
+      "date": "2026-03-19T12:45:00Z",
+      "child_id": "child_001",
+      "status": "completed"
+    },
+    {
+      "id": "txn_a009",
+      "type": "income",
+      "category": "cashback",
+      "description": "Cashback Reward — March",
+      "amount": 25.00,
+      "currency": "TRY",
+      "date": "2026-03-18T00:00:00Z",
+      "child_id": null,
+      "status": "completed"
+    },
+    {
+      "id": "txn_a010",
+      "type": "expense",
+      "category": "trip",
+      "description": "Visa Fee — Italy Trip — Zeynep",
+      "amount": -320.00,
+      "currency": "TRY",
+      "date": "2026-03-15T11:00:00Z",
+      "child_id": "child_003",
+      "status": "completed"
+    }
+  ]
+}
